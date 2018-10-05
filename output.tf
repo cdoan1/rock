@@ -1,3 +1,16 @@
-output "group_name" {
-    value = "${module.management.names}"
+
+output "master_ip" {
+    value = "${module.master.privates}"
+}
+
+output "management_ip" {
+    value = "${module.management.privates}"
+}
+
+output "va_ip" {
+    value = "${module.va.privates}"
+}
+
+output "worker_ip" {
+    value = "${module.worker.privates}"
 }
