@@ -76,7 +76,7 @@ resource "softlayer_virtual_guest" "node" {
   }
 
   provisioner "local-exec" {
-    command = "scp ${path.module}/scripts/id_rsa.pub root@${self.ipv4_address_private}:/root/.ssh"
+    command = "scp ${path.module}/sbin/id_rsa.pub root@${self.ipv4_address_private}:/root/.ssh"
   }
 
   provisioner "local-exec" {
