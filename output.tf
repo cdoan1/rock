@@ -1,4 +1,8 @@
 
+output "boot_ip" {
+    value = "${module.boot.privates}"
+}
+
 output "master_ip" {
     value = "${module.master.privates}"
 }
