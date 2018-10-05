@@ -7,7 +7,7 @@ module "master" {
 module "worker" {
   source       = "./modules/pebble"
   type = "worker"
-  count = 2
+  count = 1
 }
 
 module "management" {
@@ -19,7 +19,7 @@ module "management" {
 module "va" {
   source       = "./modules/pebble"
   type = "va"
-  count = 2
+  count = 1
 }
 
 module "boot" {
