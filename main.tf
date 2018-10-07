@@ -24,8 +24,6 @@ module "va" {
   prefix = "${var.prefix}"
   type = "va"
   count = 1
-  vcpu = 4
-  ram = 8192
 }
 
 module "boot" {
