@@ -20,8 +20,14 @@ sudo yum -y -q install device-mapper-libs device-mapper-event-libs
 sudo yum -y -q install golang
 sudo yum install -y -q wget git net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct
 
-wget -O icp-docker-18.03.1_x86_64.bin https://s3-api.us-geo.objectstorage.softlayer.net/cdoan/icp-docker-18.03.1_x86_64.bin\?X-Amz-Algorithm\=AWS4-HMAC-SHA256\&X-Amz-Credential\=i3paZmf480SRKMyVbfQT%2F20181005%2Fus-standard%2Fs3%2Faws4_request\&X-Amz-Date\=20181005T174153Z\&X-Amz-Expires\=604800\&X-Amz-SignedHeaders\=host\&X-Amz-Signature\=139c81c34044fae85e3e799e2b1200c6bea0c86afeb8412e38b7d3ebfbb4d4cb
+# wget -O icp-docker-18.03.1_x86_64.bin https://s3-api.us-geo.objectstorage.softlayer.net/cdoan/icp-docker-18.03.1_x86_64.bin\?X-Amz-Algorithm\=AWS4-HMAC-SHA256\&X-Amz-Credential\=i3paZmf480SRKMyVbfQT%2F20181005%2Fus-standard%2Fs3%2Faws4_request\&X-Amz-Date\=20181005T174153Z\&X-Amz-Expires\=604800\&X-Amz-SignedHeaders\=host\&X-Amz-Signature\=139c81c34044fae85e3e799e2b1200c6bea0c86afeb8412e38b7d3ebfbb4d4cb
+
+DOCKERIMAGE="https://s3-api.us-geo.objectstorage.softlayer.net/cdoan/icp-docker-18.03.1_x86_64.bin?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=i3paZmf480SRKMyVbfQT%2F20181013%2Fus-standard%2Fs3%2Faws4_request&X-Amz-Date=20181013T212055Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=579eaa91cc961a35ba2213282dc05204dffba9ba1f2c3e581b78b999089f3252"
+
+wget -O icp-docker-18.03.1_x86_64.bin $DOCKERIMAGE
+
 chmod 755 icp-docker-18.03.1_x86_64.bin
+
 ./icp-docker-18.03.1_x86_64.bin --install
 
 if [ -f ~/.ssh/id_rsa ]; then
@@ -60,3 +66,19 @@ iptables -A OUTPUT -i eth0 -j ACCEPT
 iptables -P INPUT DROP
 iptables -P FORWARD DROP
 # iptables -P OUTPUT DROP
+
+#
+# /var/lib/icp disk
+#
+MOUNTPOINT=/var/lib/icp
+
+if lsblk | grep xvdc; then
+    echo "second disk found ..."
+    parted /dev/xvdc mklabel gpt
+    sudo parted -a opt /dev/xvdc mkpart primary ext4 0% 100%
+    sudo mkfs.ext4 -L datapartition /dev/xvdc1
+    mkdir -p $MOUNTPOINT
+    sudo mount -o defaults /dev/xvdc1 $MOUNTPOINT
+else
+    echo "no second disk found ..."
+fi

@@ -39,6 +39,11 @@ variable "prefix" {
     default = "sre"
 }
 
+variable "disk" {
+    type = "list"
+    default = [ "100" ]
+}
+
 provider "softlayer" {}
 
 data "template_file" "setup_docker_master" {
@@ -60,7 +65,7 @@ resource "softlayer_virtual_guest" "node" {
   private_network_only = false
   cpu                  = "${var.vcpu}"
   ram                  = "${var.ram}"
-  disks                = [100]
+  disks                = "${var.disk}"
   local_disk           = false
 
   provisioner "local-exec" {

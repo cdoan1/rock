@@ -3,6 +3,7 @@ module "master" {
   type = "master"
   count = 1
   prefix = "${var.prefix}"
+  dc = "${var.dc}"
 }
 
 module "worker" {
@@ -10,6 +11,7 @@ module "worker" {
   prefix = "${var.prefix}"
   type = "worker"
   count = 1
+  dc = "${var.dc}"
 }
 
 module "management" {
@@ -17,6 +19,8 @@ module "management" {
   prefix = "${var.prefix}"
   type = "management"
   count = 2
+  dc = "${var.dc}"
+  disk = [ "100","200" ]
 }
 
 module "va" {
@@ -24,6 +28,7 @@ module "va" {
   prefix = "${var.prefix}"
   type = "va"
   count = 1
+  dc = "${var.dc}"
 }
 
 module "boot" {
@@ -31,6 +36,9 @@ module "boot" {
   prefix = "${var.prefix}"
   type = "boot"
   count = 1
+  vcpu = 4
+  ram = 8192
+  dc = "${var.dc}"
 }
 
 
