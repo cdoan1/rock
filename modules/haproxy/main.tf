@@ -43,10 +43,15 @@ variable "disk" {
     type = "list"
     default = [ "100" ]
 }
-variable "private_only" {
-  default = "true"
-}
 
+variable "proxy_list" {
+  type = "list"
+  default = []
+}
+variable "master_list" {
+  type = "list"
+  default = []
+}
 provider "softlayer" {}
 
 # data "template_file" "setup_docker_master" {
@@ -65,7 +70,7 @@ resource "softlayer_virtual_guest" "node" {
   ssh_keys             = ["922553"]
   region               = "${var.dc}"
   hourly_billing       = true
-  private_network_only = "${var.private_only}"
+  private_network_only = false
   cpu                  = "${var.vcpu}"
   ram                  = "${var.ram}"
   disks                = "${var.disk}"

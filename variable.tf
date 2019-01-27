@@ -1,6 +1,6 @@
 
 variable "prefix" {
-    default = "stage51"
+    default = "ibmcloud"
 }
 
 variable "dc" {
