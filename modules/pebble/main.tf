@@ -47,7 +47,19 @@ variable "private_only" {
   default = "true"
 }
 
-provider "softlayer" {}
+variable "softlayer_username" {}
+variable "softlayer_api_key" {}
+variable "bluemix_api_key" {}
+variable "org_name" {}
+variable "space_name {}
+
+provider "ibm" {
+bluemix_api_key    = "${var.bluemix_api_key}"
+softlayer_username = "${var.softlayer_username}"
+softlayer_api_key  = "${var.softlayer_api_key}"
+org_name = "${var.org_name}"
+space_name = "${var.space_name}"
+}
 
 # data "template_file" "setup_docker_master" {
 #   template = "${file("${path.module}/sbin/post-provision.sh")}"
